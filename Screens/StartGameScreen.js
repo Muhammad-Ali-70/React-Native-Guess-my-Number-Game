@@ -1,20 +1,54 @@
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Alert } from "react-native";
 import PrimaryButton from "../Components/PrimaryButton";
+import { useState } from "react";
 
 function StartGameScreen() {
+  const [enteredNumber, SetEnteredNumber] = useState("");
+
+  function inputHandler(enteredData) {
+    SetEnteredNumber(enteredData);
+  }
+
+  function ConfirmationHandler() {
+    const chosenNumber = parseInt(enteredNumber);
+
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert(
+        "Invalid Input!",
+        "The Number has to be a Number between 1 and 99",
+        [
+          {
+            text: "Okay",
+            style: "destructive",
+            Onpress:  clearTextFieldHandler ,
+          },
+        ]
+      );
+      return;
+    }
+
+    console.log("Valid Number !")
+  }
+
+  function clearTextFieldHandler() {
+    SetEnteredNumber("");
+  }
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={styles.TextInput}
         maxLength={2}
         keyboardType="number-pad"
+        value={enteredNumber}
+        onChangeText={inputHandler}
       />
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>Reset</PrimaryButton>
+          <PrimaryButton Onpress={clearTextFieldHandler}>Reset</PrimaryButton>
         </View>
         <View style={styles.buttonContainer}>
-          <PrimaryButton>Confirm</PrimaryButton>
+          <PrimaryButton Onpress={ConfirmationHandler}>Confirm</PrimaryButton>
         </View>
       </View>
     </View>
@@ -41,9 +75,9 @@ const styles = StyleSheet.create({
   TextInput: {
     height: 50,
     width: 80,
-    borderWidth: 3,
+    borderWidth: 4,
     textAlign: "center",
-    fontSize: 32,
+    fontSize: 34,
     fontWeight: "bold",
     color: "#ffc354",
     marginVertical: 10,
@@ -51,7 +85,7 @@ const styles = StyleSheet.create({
     borderTopColor: "#0b71ff",
     borderRightColor: "#0b71ff",
     borderLeftColor: "#0b71ff",
-    borderRadius: 3,
+    paddingBottom: 8,
   },
   buttonsContainer: {
     marginTop: 10,
