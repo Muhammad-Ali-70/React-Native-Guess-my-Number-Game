@@ -2,7 +2,7 @@ import { View, TextInput, StyleSheet, Alert } from "react-native";
 import PrimaryButton from "../Components/PrimaryButton";
 import { useState } from "react";
 
-function StartGameScreen() {
+function StartGameScreen({OnValidation}) {
   const [enteredNumber, SetEnteredNumber] = useState("");
 
   function inputHandler(enteredData) {
@@ -27,7 +27,7 @@ function StartGameScreen() {
       return;
     }
 
-    console.log("Valid Number !")
+    OnValidation(chosenNumber);
   }
 
   function clearTextFieldHandler() {
@@ -45,10 +45,10 @@ function StartGameScreen() {
       />
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
-          <PrimaryButton Onpress={clearTextFieldHandler}>Reset</PrimaryButton>
+          <PrimaryButton OnpressProp={clearTextFieldHandler}>Reset</PrimaryButton>
         </View>
         <View style={styles.buttonContainer}>
-          <PrimaryButton Onpress={ConfirmationHandler}>Confirm</PrimaryButton>
+          <PrimaryButton OnpressProp={ConfirmationHandler}>Confirm</PrimaryButton>
         </View>
       </View>
     </View>
